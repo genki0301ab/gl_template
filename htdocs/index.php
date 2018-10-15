@@ -17,6 +17,7 @@
 
 <div class="main-wrapper">
     <main class="main">
+        動作テスト
         <div class="canvas-wrapper"></div>
         <audio class="audio" loop></audio>
     </main>
