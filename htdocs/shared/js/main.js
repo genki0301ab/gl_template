@@ -114,6 +114,10 @@ function Uniform(Object) {
             type: "v2",
             value: new THREE.Vector2()
         },
+        imageResolution: {
+            type: "v2",
+            value: new THREE.Vector2(2048, 2048)
+        },
         mouse:  {
             type: "v2" ,
             value: new THREE.Vector2(this.gl.window.mouse.x, this.gl.window.mouse.y)
@@ -157,7 +161,7 @@ function Audio(Object) {
 }
 Audio.prototype.init = function() {
     this.setting();
-    //this.play();
+    this.play();
 }
 Audio.prototype.setting = function() { //setting
     this.gl.element.$audio.attr("src", this.file[this.current]);
