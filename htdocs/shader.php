@@ -1,9 +1,26 @@
 <script class="vertex-shader" type="shader">
+varying vec2 vUv;
+varying vec3 vNormal;
+varying vec3 vPosition;
+
+uniform float time;
+
 void main() {
-    gl_Position = vec4(position, 1.0);
+    vUv = uv;
+    vNormal = normal;
+
+    float angle = 2.0;
+    vec3 newPosition = position;
+    newPosition.z += abs(sin(time - position.x) * angle);
+    vPosition = newPosition;
+    gl_Position += projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
 }
 </script>
 <script class="fragment-shader" type="shader">
+varying vec2 vUv;
+varying vec3 vNormal;
+varying vec3 vPosition;
+
 uniform float audio;
 uniform float time;
 uniform int scroll;
@@ -68,6 +85,6 @@ void main() {
     }
 
     //outColor
-    gl_FragColor = distColor + texture2D(texture, uv);
+    gl_FragColor = (distColor + texture2D(texture, uv)) * vPosition.z;
 }
 </script>

@@ -46,11 +46,12 @@ Stage.prototype.createScene_rednerer = function() { //createScene_rednerer
     this.gl.element.$target.append(this.renderer.domElement);
 };
 Stage.prototype.createObject = function() { //createObject
-    this.geometry = new THREE.PlaneBufferGeometry(2, 2);
+    this.geometry = new THREE.PlaneBufferGeometry(2, 2, 200, 200);
     this.material = new THREE.ShaderMaterial({
         uniforms: this.gl.uniform.uniforms,
         vertexShader: this.gl.element.$vs[0].innerHTML,
-        fragmentShader: this.gl.element.$fs[0].innerHTML
+        fragmentShader: this.gl.element.$fs[0].innerHTML,
+        //wireframe: true
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.scene.add(this.mesh);
