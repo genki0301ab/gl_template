@@ -9,10 +9,10 @@ void main() {
     vUv = uv;
     vNormal = normal;
 
-    float angle = 2.0;
+    //moveVertex
     vec3 newPosition = position;
-    newPosition.z += abs(sin(time - position.x) * angle);
     vPosition = newPosition;
+
     gl_Position += projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
 }
 </script>
@@ -50,41 +50,21 @@ bool rect(vec2 position, float width, float height) {
 void main() {
     vec2 position = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
 
+    //background
+    vec4 distColor = vec4(1.0);
+
     //box-sizing settings
     vec2 normalPosition = gl_FragCoord.xy / resolution.xy;
     vec2 ratio = vec2(min((resolution.x / resolution.y) / (imageResolution.x / imageResolution.y), 1.0), min((resolution.y / resolution.x) / (imageResolution.y / imageResolution.x), 1.0));
     vec2 uv = vec2(normalPosition.x * ratio.x + (1.0 - ratio.x) * 0.5, normalPosition.y * ratio.y + (1.0 - ratio.y) * 0.5);
 
-    //background
-    vec4 distColor;
-    float color = floor(1.0 - sin((abs(position.x) + abs(position.y)) * audio * 20.0));
-    if(color == 0.0) {
-        vec4 mainColor = vec4(1.0, 0.0, 0.5, 0.75);
-        distColor = (mainColor + (1.0 - abs(position.x)) / 8.0) - 0.75;
-    }
-
-    //rect
-    float rectW = 0.1;
-    float rectH = 0.05;
-    vec2 rectP = position * -1.0;
-    rectP.x += cos(time);
-    rectP.y += rectP.y;
-    if(rect(rectP, rectW, rectH)) {
-        vec4 inColor = vec4(0.0, 1.0 , 0.5, 1.0);
-        distColor = inColor;
-    }
-
-    //circle
-    float radius = 0.025;
-    vec2 circleP = position * -1.0;
-    circleP.x += cos(time);
-    circleP.y += abs(sin(time)) + radius / 2.0 + rectH / 2.0;
-    if(circle(circleP, radius)) {
-        vec4 inColor = vec4(1.0);
-        distColor = inColor;
-    }
+    //texture
+    float frequency = 100.0;
+    float amplitude = 0.005;
+    float distortion = sin(uv.y * frequency) * amplitude;
+    vec4 textureColor = texture2D(texture, vec2(uv.x + distortion, uv.y));
 
     //outColor
-    gl_FragColor = (distColor + texture2D(texture, uv)) * vPosition.z;
+    gl_FragColor = vec4(textureColor.r, textureColor.b, textureColor.b, 1.0) * (1.0 - (length(position) - 0.75)) * distColor;
 }
 </script>

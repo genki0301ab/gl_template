@@ -87,6 +87,8 @@ Stage.prototype.sendShader = function() { //sendShader
     this.gl.uniform.uniforms.time.value += 0.025;
     this.gl.uniform.uniforms.resolution.value.x = this.renderer.domElement.width;
     this.gl.uniform.uniforms.resolution.value.y = this.renderer.domElement.height;
+    this.gl.uniform.uniforms.mouse.value.x = this.gl.window.mouse.x;
+    this.gl.uniform.uniforms.mouse.value.y = this.gl.window.mouse.y;
 };
 
 /*
@@ -117,7 +119,7 @@ function Uniform(Object) {
         },
         imageResolution: {
             type: "v2",
-            value: new THREE.Vector2(2048, 2048)
+            value: new THREE.Vector2(2000, 1125)
         },
         mouse:  {
             type: "v2" ,
@@ -162,7 +164,7 @@ function Audio(Object) {
 }
 Audio.prototype.init = function() {
     this.setting();
-    this.play();
+    //this.play();
 }
 Audio.prototype.setting = function() { //setting
     this.gl.element.$audio.attr("src", this.file[this.current]);
