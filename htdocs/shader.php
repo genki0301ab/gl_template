@@ -49,9 +49,12 @@ bool rect(vec2 position, float width, float height) {
 
 void main() {
     vec2 position = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
+    vec2 mousePosition = (mouse * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
+    mousePosition.x = mousePosition.x * -1.0;
+    vec2 newPosition = position + mousePosition;
 
     //background
-    vec4 distColor = vec4(1.0);
+    vec4 distColor = vec4(0.0);
 
     //box-sizing settings
     vec2 normalPosition = gl_FragCoord.xy / resolution.xy;
@@ -59,12 +62,13 @@ void main() {
     vec2 uv = vec2(normalPosition.x * ratio.x + (1.0 - ratio.x) * 0.5, normalPosition.y * ratio.y + (1.0 - ratio.y) * 0.5);
 
     //texture
-    float frequency = 100.0;
+    float frequency = 25.0;
     float amplitude = 0.005;
-    float distortion = sin(uv.y * frequency) * amplitude;
+    //float distortion = sin(position.y * frequency) * amplitude;
+    float distortion = 0.1 / length(newPosition * 2.0);
     vec4 textureColor = texture2D(texture, vec2(uv.x + distortion, uv.y));
 
     //outColor
-    gl_FragColor = vec4(textureColor.r, textureColor.b, textureColor.b, 1.0) * (1.0 - (length(position) - 0.75)) * distColor;
+    gl_FragColor = vec4(textureColor.r, textureColor.b, textureColor.b, 1.0) * (1.0 - (length(position) - 0.75)) + distColor;
 }
 </script>
