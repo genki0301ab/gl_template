@@ -119,7 +119,7 @@ function Uniform(Object) {
         },
         imageResolution: {
             type: "v2",
-            value: new THREE.Vector2(2000, 1125)
+            value: new THREE.Vector2(1920, 1080)
         },
         mouse:  {
             type: "v2" ,
