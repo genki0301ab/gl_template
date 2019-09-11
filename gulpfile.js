@@ -20,39 +20,39 @@ gulp.task("reload" , function() {
 });
 
 gulp.task("html", function() {
-	gulp.src(["./htdocs/**/*html"])
+	gulp.src(["./src/**/*html"])
 		.pipe(plumber())
 		.pipe(browserSync.reload({stream:true}));
 });
 
 gulp.task("sass" , function() {
-	gulp.src(["./htdocs/**/*scss"])
+	gulp.src(["./src/**/*scss"])
 		.pipe(plumber())
 		.pipe(autoPrefixer("last 2 version"))
 		.pipe(sass({
 			outputStyle: "expanded"
 		}))
-		.pipe(gulp.dest("./htdocs/"))
+		.pipe(gulp.dest("./src/"))
 		.pipe(browserSync.reload({stream:true}));
 });
 
 gulp.task("php" , function() {
-	gulp.src(["./htdocs/**/*php"])
+	gulp.src(["./src/**/*php"])
 		.pipe(plumber())
 		.pipe(browserSync.reload({stream:true}));
 });
 
 gulp.task("javascript" , function() {
-	gulp.src(["./htdocs/**/*js"])
+	gulp.src(["./src/**/*js"])
 		.pipe(plumber())
 		.pipe(browserSync.reload({stream:true}));
 });
 
 gulp.task("watch" , function() {
-	gulp.watch(["./htdocs/**/*html"] , ["html"]);
-	gulp.watch(["./htdocs/**/*php"] , ["php"]);
-	gulp.watch(["./htdocs/**/*scss"] , ["sass"]);
-	gulp.watch(["./htdocs/**/*js"] , ["javascript"]);
+	gulp.watch(["./src/**/*html"] , ["html"]);
+	gulp.watch(["./src/**/*php"] , ["php"]);
+	gulp.watch(["./src/**/*scss"] , ["sass"]);
+	gulp.watch(["./src/**/*js"] , ["javascript"]);
 });
 
 gulp.task("default" , ["browser-sync" , "watch"]); 
